@@ -18,7 +18,7 @@ puzzle = [[0,0,0,0,9,0,4,0,0],
           [0,0,7,0,8,0,0,0,0]]
 
 
-##def check_possibles(row, puzzle):
-##    #start with a fresh possible
-##    possibles = []
-##    for column in range(len(row)):
+def check_possibles(row, puzzle):
+    #start with a fresh possible
+    possibles = []
+    for column in range(len(row)):
