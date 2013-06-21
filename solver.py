@@ -32,8 +32,17 @@ def row_possibles(puzzle, row):
     return possibles
 
 def col_possibles(puzzle, column):
-    return "doesn't work yet"
-    
+    possibles = [1,2,3,4,5,6,7,8,9]
+    structure = []
+    for row in range(9):
+        structure.append(puzzle[row][column])
+        print str(structure)
+    print "--------------------"
+    for cell in structure:
+        if cell != 0:
+            if cell in possibles:
+                possibles.remove(cell)
+    return possibles
 
 
 
