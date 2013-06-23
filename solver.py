@@ -21,12 +21,10 @@ puzzle = [[0,0,0,0,9,0,4,0,0],
 
 
 def row_possibles(puzzle, row):
-    #start with a fresh possible range
     possibles = [1,2,3,4,5,6,7,8,9]
     structure = puzzle[row]
     
     for cell in structure:
-        #check all cells in the row and remove existing digits from possibles
         if cell != 0:
             if cell in possibles:
                 possibles.remove(cell)
@@ -44,6 +42,8 @@ def col_possibles(puzzle, column):
     return possibles
 
 def box_possibles(puzzle, row, column):
+    row = (row/3)
+    column = (column/3)
     possibles = [1,2,3,4,5,6,7,8,9]
     box_row = row * 3
     box_column = column * 3
@@ -57,19 +57,39 @@ def box_possibles(puzzle, row, column):
                 possibles.remove(cell)
     return possibles
 
+def cell_possibles(puzzle, row, column):
+    #function for determining what can be put in a cell
+    cell_value = puzzle[row][column]
+    #if the cell is full, nothing is possible in in
+    if cell_value != 0:
+        return 0
+    else:
+        cell_poss = [1,2,3,4,5,6,7,8,9]
+        not_poss = []
+        row_poss = row_possibles(puzzle, row)
+        col_poss = col_possibles(puzzle, column)
+        box_poss = box_possibles(puzzle, row, column)
+        for i in range(1,10):
+            if i not in row_poss:
+                if i not in not_poss:
+                    not_poss.append(i)
+            if i not in col_poss:
+                if i not in not_poss:
+                    not_poss.append(i)
+            if i not in box_poss:
+                if i not in not_poss:
+                    not_poss.append(i)
+        for i in not_poss:
+            cell_poss.remove(i)
+            
+        return cell_poss
 
 
-print str(row_possibles(puzzle, 0))
-#this should print out [1,2,3,5,6,7,8] - check
-print str(col_possibles(puzzle, 0))
-#this should print out [1,2,3,4,5,6,7] - check
-print str(box_possibles(puzzle, 0, 0))
-#this should print out [1,2,3,4,5,6,8] - check
-
-#working good, let's test some more
-print str(row_possibles(puzzle, 3))
-#[1,2,3,7,8,9] - predicted result - check
-print str(col_possibles(puzzle, 4))
-#[1,3,4,6,7] - predicted result - check
-print str(box_possibles(puzzle, 1, 1))
-#[1,2,3,6,7,8,9] - predicted result - check
+print str(cell_possibles(puzzle, 7, 4))
+#[1,3,7] - predicted result - check
+print str(cell_possibles(puzzle, 1, 0))
+#0 - predicted result - check
+print str(cell_possibles(puzzle, 2, 0))
+#[3,4,5] - predicted result - check
+print str(cell_possibles(puzzle, 8, 8))
+#[2,3,5,6,9] - predicted result - check
