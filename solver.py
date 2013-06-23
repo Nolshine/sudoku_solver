@@ -7,15 +7,29 @@ takes in a 9*9 2D array, partially filled with digits from 1 to 9.
 1-9 each corresponds to its respective self.
 """
 
-puzzle = [[0,0,0,0,9,0,4,0,0],
-          [9,7,0,0,0,1,0,0,0],
-          [0,0,0,6,2,8,0,0,1],
-          [0,4,6,5,0,0,0,0,0],
-          [0,5,9,0,0,0,7,6,0],
-          [0,0,0,0,0,4,1,2,0],
-          [8,0,0,4,5,6,0,0,0],
-          [0,0,0,2,0,0,0,4,8],
-          [0,0,7,0,8,0,0,0,0]]
+##puzzle = [[0,0,0,0,9,0,4,0,0],
+##          [9,7,0,0,0,1,0,0,0],
+##          [0,0,0,6,2,8,0,0,1],
+##          [0,4,6,5,0,0,0,0,0],
+##          [0,5,9,0,0,0,7,6,0],
+##          [0,0,0,0,0,4,1,2,0],
+##          [8,0,0,4,5,6,0,0,0],
+##          [0,0,0,2,0,0,0,4,8],
+##          [0,0,7,0,8,0,0,0,0]]
+#this is an average puzzle, that can't yet be solved by the algorithm
+
+
+
+puzzle = [[6,0,0,0,0,0,0,4,0],
+          [0,0,9,1,3,0,0,0,2],
+          [0,4,8,0,0,2,0,5,7],
+          [5,0,0,2,1,0,0,0,8],
+          [0,8,0,5,0,3,0,9,0],
+          [1,0,0,0,4,9,0,0,5],
+          [4,6,0,3,0,0,8,1,0],
+          [8,0,0,0,9,5,3,0,0],
+          [0,2,0,0,0,0,0,0,6]]
+#this is an easy difficulty puzzle, that the algorithm solves. (confirmed)
 #must remember that counting starts at 0;
 #row 1 is actually row 0.
 
@@ -85,11 +99,20 @@ def cell_possibles(puzzle, row, column):
         return cell_poss
 
 
-print str(cell_possibles(puzzle, 7, 4))
-#[1,3,7] - predicted result - check
-print str(cell_possibles(puzzle, 1, 0))
-#0 - predicted result - check
-print str(cell_possibles(puzzle, 2, 0))
-#[3,4,5] - predicted result - check
-print str(cell_possibles(puzzle, 8, 8))
-#[2,3,5,6,9] - predicted result - check
+def solve(puzzle):
+    while True:
+        action_taken = False
+        for row in range(9):
+            for column in range(9):
+                cell_poss = cell_possibles(puzzle,row,column)
+                if cell_poss != 0:
+                    if len(cell_poss) == 1:
+                        puzzle[row][column] = cell_poss[0]
+                        action_taken = True
+        if not action_taken:
+            break
+    return puzzle
+
+
+for row in solve(puzzle):
+    print str(row)
